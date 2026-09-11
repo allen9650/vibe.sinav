@@ -1,0 +1,24 @@
+# Environment sensitive credentials
+.env
+.env.backup
+.env.local
+!.env.example
+
+# Runtime database backups & installation locks
+storage/backups/*.sql
+!storage/backups/.gitkeep
+install.lock
+storage/installed.lock
+
+# Temporary development & scratch files
+scratch/
+tests/scratch/
+*.log
+
+# Operating System & IDE artifacts
+Thumbs.db
+Desktop.ini
+.DS_Store
+.vscode/
+.idea/
+nbproject/

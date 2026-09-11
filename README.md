@@ -1,236 +1,301 @@
-# vibe.sinav
+﻿# vibe.Sınav — Assessment System
 
-> **Enterprise-Grade, Secure, LAN-Optimized Assessment & Examination Platform**  
-> Developed by **Ahsan Raza**
+> **Enterprise-Grade, Secure, Offline/LAN-Ready Assessment, Examination & Live Proctoring Platform**  
+> Developed by **Ahsan Raza** &bull; Powered by **vibe.Sınav**
+
+[![PHP Version](https://img.shields.io/badge/PHP-8.1%2B-blue.svg)](https://www.php.net/)
+[![Database](https://img.shields.io/badge/Database-MySQL%20%7C%20MariaDB-orange.svg)](https://www.mysql.com/)
+[![Network](https://img.shields.io/badge/Deployment-LAN%20%7C%20Offline%20Ready-green.svg)](#lan--multi-pc-lab-deployment)
+[![License](https://img.shields.io/badge/License-Proprietary-red.svg)](#)
 
 ---
 
 ## Table of Contents
 1. [Overview & Features](#overview--features)
-2. [System Requirements](#system-requirements)
+2. [Dual Examination Engines](#dual-examination-engines)
 3. [Architecture & Technology Stack](#architecture--technology-stack)
-4. [Installation & Setup](#installation--setup)
-5. [LAN & Multi-PC Deployment](#lan--multi-pc-deployment)
-6. [Daily Operations Workflow](#daily-operations-workflow)
-7. [Anti-Cheating & Telemetry Security](#anti-cheating--telemetry-security)
-8. [Calculation & Ranking Engine](#calculation--ranking-engine)
-9. [Reports, Export & Certificate Generation](#reports-export--certificate-generation)
-10. [Database Backup & Disaster Recovery](#database-backup--disaster-recovery)
-11. [Troubleshooting & FAQs](#troubleshooting--faqs)
+4. [System Requirements](#system-requirements)
+5. [Quick Installation & Setup](#quick-installation--setup)
+6. [Environment Configuration (.env)](#environment-configuration-env)
+7. [One-Click Batch Launchers](#one-click-batch-launchers)
+8. [LAN & Multi-PC Lab Deployment](#lan--multi-pc-lab-deployment)
+9. [Anti-Cheating & Live Telemetry Security](#anti-cheating--live-telemetry-security)
+10. [Certificates, Reports & Analytics](#certificates-reports--analytics)
+11. [Institutional Branding & Customization](#institutional-branding--customization)
+12. [Disaster Recovery & Backup](#disaster-recovery--backup)
+13. [Troubleshooting & FAQs](#troubleshooting--faqs)
 
 ---
 
 ## 1. Overview & Features
 
-The **Marr Typing Competition System** is a standalone, browser-based, high-performance examination and assessment engine engineered specifically for large-scale institutional typing competitions and computer laboratory speed testing.
+**vibe.Sınav Assessment System** is a standalone, browser-based, high-performance examination and assessment platform engineered specifically for schools, colleges, universities, professional testing centers, and computer laboratories.
 
-### Key Capabilities:
-- **Core RBAC & Security**: Role-based access control (`Super Admin`, `Admin`, `Invigilator`, `Candidate`), CSRF tokens on state mutations, bcrypt password hashing, brute-force lockout, and full database audit logging.
-- **Candidate & Attendance Management**: Bulk CSV import, biometric/QR-ready manual attendance, roll number assignment, and printable candidate admission cards.
-- **Dynamic Typing Paragraph Library**: Multi-difficulty paragraph management, word/character counting, assignment to competitions, and random selection pools.
-- **Candidate Portal & Robust Engine**: Server-backed countdown timer, background auto-save (every 5 seconds), mid-test refresh recovery, accidental tab closure recovery, and clean submission handling.
-- **High-Accuracy Levenshtein DP Alignment**: Dynamic programming character and word sequence alignment that isolates substitutions, deletions, and insertions without cascading false errors.
-- **Anti-Cheating Telemetry**: Server-side detection and logging of Tab Switches (`Visibility API`), Window Blurs, Fullscreen Exits, Clipboard actions (Copy/Paste/Cut), Context Menu attempts, and automatic threshold disqualification.
-- **Real-Time Proctoring & Leaderboards**: Live monitor auto-polling every 3s, real-time typing progress, deterministic ranking hierarchy (Score > Accuracy > Net WPM > Errors > Duration), and frozen rank locking.
-- **Comprehensive Reports & Analytics**: 14 distinct analytical reports, multi-filter query engine, and formula-injection-sanitized Excel-compatible CSV streaming with UTF-8 BOM.
-- **Certificate System**: Unique sequential numbering (`MITC-CERT-YYYY-XXXXX`), Achievement and Participation templates, snapshot immutability, and landscape A4 print styling.
-- **Disaster Recovery**: One-click pure SQL database backup and safe restoration utilities.
+Designed from the ground up for mission-critical institutional testing, the system operates seamlessly in **air-gapped or offline local area networks (LAN)** with zero reliance on external CDNs or cloud dependencies.
+
+### Core Capabilities:
+- **Comprehensive Assessment Builder**: Create rich cognitive exams, quizzes, and aptitude tests featuring Single Choice (MCQs), Multiple Choice (Multi-Select), True/False, Fill in the Blanks, and Short Answer questions with automated evaluation.
+- **Typing & Speed Testing Engine**: Dynamic passage testing with character-level Levenshtein DP sequence alignment, Gross/Net WPM, accuracy calculation, and error classification.
+- **Robust Candidate Experience**: Server-synchronized countdown timers, 5-second automatic state persistence, mid-test refresh recovery, and accidental tab closure protection.
+- **Live Proctoring Telemetry**: Real-time invigilator dashboard monitoring active candidate timers, question progress, tab switching, window blurs, fullscreen exits, and automated disqualification thresholds.
+- **Multi-Role RBAC**: Granular role-based security (`Super Admin`, `Admin`, `Teacher / Invigilator`, `Candidate`), bcrypt password hashing, CSRF token validation, brute-force lockout, and immutable audit logs.
+- **Workstation & Device Management**: Computer lab workstation allocation, IP/device restrictions, roll number assignment, attendance tracking, and printable admission slips.
+- **Customizable Certificate Generator**: Multi-template landscape A4 certificates with dynamic watermark, custom institute logo scaling, signature blocks, unique serial numbering, and QR verification codes.
+- **Institutional Branding**: Live sliding logo presentation on the login portal, customizable institute name, and matching dynamic favicons across all public and admin pages.
+- **Analytical Reporting**: 14+ analytical reports, Excel-compatible CSV exports sanitized against CSV formula injection (`=`, `+`, `-`, `@`), and 80mm thermal receipt printing.
 
 ---
 
-## 2. System Requirements
+## 2. Dual Examination Engines
 
-### Server Machine (Host PC)
-- **Operating System**: Windows 10, Windows 11, or Windows Server.
-- **Web Server**: Apache 2.4+ (Included with XAMPP).
-- **PHP Version**: PHP 8.0 or higher (PHP 8.2+ recommended).
-- **Database**: MySQL 5.7+ or MariaDB 10.4+.
-- **Required PHP Extensions**:
-  - `pdo_mysql` (Database PDO driver)
-  - `mbstring` (Multibyte UTF-8 Unicode string support)
-  - `session` (Session management)
-  - `json` (Payload encoding/decoding)
-  - `openssl` (Cryptographic token generation)
-  - `filter` (Data sanitization)
-- **Local Network**: 100 Mbps or 1 Gbps Local Area Network (LAN / Ethernet / Wi-Fi Router).
+vibe.Sınav provides two specialized testing engines within a single unified platform:
 
-### Candidate Examination Client PCs
-- **Browser**: Google Chrome 90+, Microsoft Edge 90+, Mozilla Firefox 88+.
-- **Resolution**: 1280x720 or higher recommended.
-- **Hardware**: Standard desktop/laptop with physical keyboard.
+### A. Modern Quiz & Cognitive Assessment Engine
+- **Visual Question Builder**: Drag-and-order question structuring with rich text, categories, difficulty tags, points, and explanation notes.
+- **5 Supported Question Types**:
+  1. `Single Choice (MCQ)`: Standard multiple choice with single radio option.
+  2. `Multiple Choice`: Multi-select checkboxes with partial or all-or-nothing scoring.
+  3. `True / False`: Rapid conceptual validation buttons.
+  4. `Fill in the Blanks`: Keyword and phrase matching with case-sensitivity toggles.
+  5. `Short Answer`: Open-ended answers evaluated against model answer key patterns.
+- **Real-Time Telemetry & Progress**: Candidates navigate questions with answered/unanswered indicators, question flags for review, and instant submission safeguards.
+
+### B. Precision Typing Competition Engine
+- **Levenshtein DP Sequence Alignment**: Dynamic programming alignment isolates substitutions, deletions, and insertions without cascading false penalties.
+- **Speed & Accuracy Metrics**:
+  - **Gross WPM**: $(\text{Total Typed Characters} / 5) / \text{Minutes}$
+  - **Net WPM**: $\max(0, \text{Gross WPM} - (\text{Total Errors} / \text{Minutes}))$
+  - **Accuracy %**: $(\text{Correct Characters} / \max(\text{Reference}, \text{Typed})) \times 100$
+  - **Score**: $\text{Net WPM} \times (\text{Accuracy} / 100)$
+- **Dynamic Paragraph Bank**: Curated paragraphs classified by difficulty and word count with random pool distribution.
 
 ---
 
 ## 3. Architecture & Technology Stack
 
-- **Backend**: Clean, procedural-OOP Hybrid PHP 8 with Zero Heavy Framework Overhead.
-- **Frontend**: Vanilla HTML5, High-Contrast CSS3 Design System, Bootstrap 5 UI Components, FontAwesome Icons, Vanilla JavaScript.
-- **Zero External CDN Dependencies**: All CSS, fonts, and JS bundles are stored locally within `public/assets/` to ensure 100% functionality on air-gapped/offline LAN networks.
-- **Database**: Relational MySQL with strict foreign keys, transactional queries, and index optimization across 18 tables.
+- **Backend**: Clean, procedural-OOP hybrid PHP 8.1+ with zero heavy framework bloat, delivering sub-millisecond response times.
+- **Frontend**: Vanilla HTML5, High-Contrast CSS3 Design System, Bootstrap 5 UI Components, FontAwesome Icons, and Vanilla JavaScript.
+- **100% Offline / Air-Gapped Ready**: All CSS stylesheets, fonts, and JS bundles are stored locally in `public/assets/` — zero external CDN requests.
+- **Database Layer**: MySQL 5.7+ / MariaDB 10.4+ with transactional integrity, foreign key constraints, and indexed queries across 20+ optimized tables.
+- **Session & State Management**: Server-authoritative state engine storing question progress and test timers to prevent client-side tampering.
 
 ---
 
-## 4. Installation & Setup
+## 4. System Requirements
 
-### Step 1: Copy Project to XAMPP
-Place the project folder into your XAMPP `htdocs` directory:
+### Host Server Machine
+- **Operating System**: Windows 10, Windows 11, Windows Server, or Linux (Ubuntu/Debian/RHEL).
+- **Web Server**: Apache 2.4+ (Included with XAMPP) or Nginx.
+- **PHP Version**: PHP 8.1 or higher (PHP 8.2+ recommended).
+- **PHP Extensions**: `pdo_mysql`, `mbstring`, `openssl`, `session`, `json`, `filter`.
+- **Database**: MySQL 5.7+ or MariaDB 10.4+.
+- **Network**: Standard 100 Mbps or 1 Gbps Local Area Network (LAN / Ethernet / Wi-Fi Router).
+
+### Candidate Workstations (Client PCs)
+- **Browser**: Google Chrome 90+, Microsoft Edge 90+, Mozilla Firefox 88+, Safari 14+.
+- **Resolution**: 1280x720 or higher recommended.
+- **Hardware**: Standard desktop or laptop with keyboard and mouse.
+
+---
+
+## 5. Quick Installation & Setup
+
+### Step 1: Place Project in Web Root
+Clone or copy the project to your web server root (e.g., XAMPP `htdocs`):
+```bash
+git clone https://github.com/allen9650/vibe.sinav.git C:\xampp\htdocs\ptmtest
 ```
-C:\xampp\htdocs\ptmtest\
+
+### Step 2: Configure Environment (.env)
+Copy the provided `.env.example` template to `.env`:
+```bash
+cp .env.example .env
+```
+Open `.env` in any text editor and configure your database credentials and application settings:
+```ini
+APP_NAME="vibe.Sınav"
+APP_URL=http://localhost/ptmtest
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=ptm
+DB_USERNAME=root
+DB_PASSWORD=
 ```
 
-### Step 2: Start Apache and MySQL
-1. Open **XAMPP Control Panel**.
-2. Start the **Apache** and **MySQL** services.
-
-### Step 3: Run the One-Time Web Installer
-1. Open your browser and navigate to:
+### Step 3: Run the Web Installer
+1. Open XAMPP and start **Apache** and **MySQL**.
+2. Navigate in your browser to:
    ```
    http://localhost/ptmtest/install.php
    ```
-2. The installer will automatically:
-   - Create database `PTM` (if not already existing).
-   - Execute all table schemas (`database/schema.sql`).
-   - Seed default roles, permissions, settings, and administrator account (`database/seed.sql`).
-   - Create `install.lock` and `storage/installed.lock` to prevent accidental reinstallations.
+3. The installer will automatically:
+   - Create the database (if not existing).
+   - Execute base schema (`database/schema.sql`).
+   - Execute assessment system migrations (`database/migrations/assessment_system.sql`).
+   - Seed default roles, system settings, and administrator credentials (`database/seed.sql`).
+   - Create `install.lock` to secure the installation.
 
-### Step 4: Initial Administrator Login
-1. Navigate to:
-   ```
-   http://localhost/ptmtest/
-   ```
-2. Enter default credentials:
-   - **Username**: `admin`
-   - **Password**: `admin123`
-3. You will be prompted to set a new, secure password immediately upon first login.
-
----
-
-## 5. LAN & Multi-PC Deployment
-
-To run typing competitions across multiple computers in your laboratory:
-
-### 1. Obtain Server IPv4 Address
-1. On the Server PC, open Command Prompt (`cmd`).
-2. Run:
-   ```cmd
-   ipconfig
-   ```
-3. Locate your **IPv4 Address** (e.g., `192.168.1.100` or `192.168.10.50`).
-
-### 2. Configure Windows Firewall on Server PC
-Ensure Apache is allowed through Windows Defender Firewall:
-1. Open **Windows Defender Firewall** &rarr; **Allow an app through firewall**.
-2. Ensure **Apache HTTP Server** (`httpd.exe`) is checked for both **Private** and **Public** networks.
-
-### 3. Connect Candidate PCs
-On each candidate PC in the lab, open Google Chrome or Microsoft Edge and navigate to:
-```
-http://<SERVER_IP>/ptmtest/
-```
-*(Example: `http://192.168.1.100/ptmtest/`)*
-
-Candidates click **Candidate Test Portal** and log in using their allocated **Roll Number**.
+### Step 4: Default Credentials
+| Portal | URL | Default Username | Default Password |
+| :--- | :--- | :--- | :--- |
+| **Super Admin / Examiner** | `/index.php?page=login` | `admin` | `Admin@123` |
+| **Teacher / Invigilator** | `/index.php?page=login` | `teacher` | `Teacher@123` |
+| **Quiz Candidate Portal** | `/index.php?page=quiz-login` | *(Candidate Roll No)* | *(Password if set)* |
+| **Typing Test Portal** | `/index.php?page=test-portal` | *(Candidate Roll No)* | *(None / Direct)* |
 
 ---
 
-## 6. Daily Operations Workflow
+## 6. Environment Configuration (.env)
 
-### 1. Before Competition
-1. **Create Competition**: Admin panel &rarr; *Competitions* &rarr; *Create Competition* (Set date, venue, title).
-2. **Assign Paragraph**: *Typing Paragraphs* &rarr; create or select passages &rarr; assign to competition.
-3. **Configure Settings**: *Competitions* &rarr; *Settings* (Duration, Passing WPM, Passing Accuracy, Max Violations, Fullscreen, Copy/Paste block).
-4. **Register Candidates**: *Candidates* &rarr; *Add Candidate* or *Bulk Import (CSV)*.
-5. **Print Candidate Slips**: *Candidates* &rarr; *Print Candidate List*.
+The application uses an environment configuration file (`.env`) for portable deployment across development, local testing, and production servers.
 
-### 2. Competition Day
-1. **Mark Attendance**: *Attendance* &rarr; mark present candidates.
-2. **Open Live Monitor**: *Live Test Monitor* &rarr; monitor candidate timers, typing progress, and live security telemetry.
-3. **Candidates Test**: Candidates log in, review instructions, start countdown timer, type text, and submit.
-
-### 3. Post Competition
-1. **Review Standings**: *Leaderboard* &rarr; view real-time ranked candidates with medals (🥇, 🥈, 🥉).
-2. **Finalize Competition**: *Leaderboard* &rarr; *Finalize Competition* (Verifies all attempts completed and saves authoritative frozen ranks).
-3. **Lock Final Results**: Click *Lock Results* to permanently protect scores against tampering.
-4. **Generate Certificates**: *Certificates* &rarr; *Bulk Certificate Generator* &rarr; select policy &rarr; Generate & Print A4 certificates.
-5. **Create Database Backup**: *System* &rarr; *Database Backup* &rarr; *Create Full Backup Now*.
-
----
-
-## 7. Anti-Cheating & Telemetry Security
-
-| Security Event | Detection Mechanism | System Action |
+| Variable | Default Value | Description |
 | :--- | :--- | :--- |
-| **Tab Switch** | HTML5 Visibility API (`visibilitychange`) | Logs `TAB_SWITCH` event & increments violation count. |
-| **Window Blur** | Window focus loss event (`blur`) | Logs `WINDOW_BLUR` event. |
-| **Fullscreen Exit** | Fullscreen API state change | Logs `FULLSCREEN_EXIT` & warns candidate to return to fullscreen. |
-| **Copy / Cut / Paste** | DOM clipboard interception | Blocks action via `preventDefault()`, logs `COPY_ATTEMPT` / `PASTE_ATTEMPT`. |
-| **Right Click** | Context menu interception | Blocks context menu via `preventDefault()`, logs `RIGHT_CLICK_ATTEMPT`. |
-| **Violation Action** | Threshold evaluation (`max_violations`) | Automatically disqualifies attempt, halts typing, and locks attempt. |
+| `APP_NAME` | `"vibe.Sınav"` | Brand title displayed throughout portals |
+| `APP_ENV` | `development` | `development` or `production` |
+| `APP_DEBUG` | `true` | Show diagnostic messages on errors |
+| `APP_URL` | `http://localhost/ptmtest` | Canonical base URL |
+| `APP_TIMEZONE` | `Asia/Karachi` | System timezone for audit and test timestamps |
+| `DB_HOST` | `127.0.0.1` | MySQL server hostname or IP address |
+| `DB_PORT` | `3306` | MySQL server port |
+| `DB_DATABASE` | `ptm` | Database name |
+| `DB_USERNAME` | `root` | Database username |
+| `DB_PASSWORD` | `""` | Database password |
+| `SESSION_LIFETIME` | `30` | Session idle timeout in minutes |
+| `LOGIN_MAX_ATTEMPTS` | `5` | Maximum failed logins before account lockout |
+| `LOGIN_LOCKOUT_MINUTES`| `15` | Duration of lockout period |
+
+> **Security Note**: Never commit your active `.env` file containing production credentials to public version control. Use `.env.example` as the clean template.
 
 ---
 
-## 8. Calculation & Ranking Engine
+## 7. One-Click Batch Launchers
 
-### Speed & Accuracy Formulas
-- **Gross WPM**:
-  $$\text{Gross WPM} = \frac{\text{Total Typed Characters} / 5}{\text{Duration in Minutes}}$$
-- **Net WPM**:
-  $$\text{Net WPM} = \max\left(0, \text{Gross WPM} - \frac{\text{Total Errors}}{\text{Duration in Minutes}}\right)$$
-- **Accuracy %**:
-  $$\text{Accuracy \%} = \frac{\text{Correct Characters}}{\max(\text{Reference Characters}, \text{Typed Characters})} \times 100$$
-- **Final Score**:
-  $$\text{Final Score} = \text{Net WPM} \times \left(\frac{\text{Accuracy}}{100}\right)$$
+For rapid, frictionless operation without opening command line tools, convenient Windows batch scripts are included in the root directory:
 
-### Deterministic Tie-Breaking Rules
-1. Highest Final Score (`score DESC`)
-2. Highest Accuracy % (`accuracy DESC`)
-3. Highest Net WPM (`net_wpm DESC`)
-4. Lowest Total Errors (`error_count ASC`)
-5. Shortest Scoring Duration (`time_taken_seconds ASC`)
-*Exact ties across all metrics receive shared ranks with corresponding medals.*
+| Script | Target Functionality |
+| :--- | :--- |
+| `START_SERVER_LAN.bat` | Starts the host server on port 8000, detects server IPv4, and displays URLs for all candidate PCs in the lab. |
+| `START_ADMIN.bat` | Starts local server and automatically launches the Admin & Examiner Control Panel in your default browser. |
+| `START_TEACHER.bat` | Starts local server and launches the Teacher / Invigilator Portal. |
+| `START_QUIZ_STUDENT.bat` | Starts server and launches the Candidate Interactive Quiz Portal (`quiz-login`). |
+| `START_STUDENT.bat` | Starts server and launches the Candidate Typing Examination Portal (`test-portal`). |
 
 ---
 
-## 9. Reports, Export & Certificate Generation
+## 8. LAN & Multi-PC Lab Deployment
 
-- **14 Analytical Reports**: Competition Results, Candidate Performance, Top Performers, Attendance, Absent Candidates, Course-wise, Shift-wise, Branch-wise, WPM Distribution, Accuracy Distribution, Error Analysis, Qualification, Security Violations, Final Ranking.
-- **Anti-Formula Injection**: Sanitizes cells starting with `=`, `+`, `-`, `@`, `\t`, `\r` to protect Excel users from DDE exploits.
-- **Print Sheets**:
-  - A4 Individual Result Sheet with signature lines.
-  - Compact 80mm Thermal Receipt Slip.
-  - Landscape A4 Certificate with gold/navy dual borders.
+Deploying vibe.Sınav in a computer laboratory across 10 to 100+ workstations requires no external internet connection:
+
+### 1. Identify Server IPv4 Address
+On the host server PC:
+1. Double-click `START_SERVER_LAN.bat` (or run `ipconfig` in Command Prompt).
+2. Note your host IP address (e.g. `192.168.1.100` or `10.0.0.50`).
+
+### 2. Configure Windows Firewall on Server
+Ensure Apache or PHP is permitted to accept inbound connections:
+1. Open **Windows Defender Firewall** &rarr; **Allow an app or feature through Windows Defender Firewall**.
+2. Check **Apache HTTP Server** (or `php.exe`) for both **Private** and **Public** networks.
+
+### 3. Connect Candidate Workstations
+On each candidate PC in the lab, open Google Chrome or Microsoft Edge and navigate to:
+- **For Quizzes & Assessments**:  
+  `http://<SERVER_IP>:8000/index.php?page=quiz-login`  
+  *(e.g., `http://192.168.1.100:8000/index.php?page=quiz-login`)*
+- **For Typing Speed Tests**:  
+  `http://<SERVER_IP>:8000/index.php?page=test-portal`
+
+Candidates log in using their pre-assigned **Roll Number** or **Workstation Terminal**.
 
 ---
 
-## 10. Database Backup & Disaster Recovery
+## 9. Anti-Cheating & Live Telemetry Security
 
-### Creating a Backup
-1. In Admin Panel, navigate to **System & Maintenance &rarr; Database Backup**.
-2. Click **Create Full Backup Now**.
-3. Download the generated `.sql` file and store it on external media.
+vibe.Sınav incorporates multi-vector proctoring safeguards to maintain rigorous academic integrity:
 
-### Restoring a Backup
-To restore a snapshot in MySQL / phpMyAdmin:
-```bash
-mysql -u root -p PTM < ptm_backup_YYYY-MM-DD_HHiiss.sql
-```
+| Event | Detection Technology | System Response |
+| :--- | :--- | :--- |
+| **Tab Switching** | HTML5 Visibility API (`visibilitychange`) | Logs `TAB_SWITCH` telemetry event; increments violation counter. |
+| **Window Blur** | Window focus loss listener (`blur`) | Logs `WINDOW_BLUR` event with exact client timestamp. |
+| **Fullscreen Exit** | Fullscreen API state monitor | Warns student and prompts immediate return to fullscreen. |
+| **Copy / Cut / Paste** | DOM clipboard event interception | Blocks clipboard action via `preventDefault()`; logs attempt. |
+| **Right-Click Context** | Context menu event interception | Suppresses context menu; prevents inspection or copy shortcuts. |
+| **Threshold Disqualification**| Server-evaluated violation limit | Locks attempt immediately upon reaching max permitted violations. |
+| **Heartbeat & Telemetry** | Background ping every 5 seconds | Tracks real-time connection status and active question index. |
 
 ---
 
-## 11. Troubleshooting & FAQs
+## 10. Certificates, Reports & Analytics
+
+### Automated Certificate Generator
+- **Multi-Template Engine**: Professional landscape A4 certificate layouts with gold and navy decorative borders.
+- **Dynamic Watermark & Logo**: Dynamic scaling and opacity adjustment for the institution's official crest.
+- **Unique Verification Serial**: Generates sequential, tamper-evident certificate numbers (e.g., `CERT-2026-00042`).
+- **QR Code Verification**: Instant verification link rendered directly on printed certificates.
+
+### 14+ Analytical Reports
+1. Full Assessment & Competition Results
+2. Individual Candidate Performance Transcripts
+3. Top Performers & Honor Roll
+4. Daily Attendance & Workstation Check-ins
+5. Absentee Register
+6. Course-wise Breakdown
+7. Shift / Batch Analysis
+8. Branch / Campus Distribution
+9. Score & Grade Distributions
+10. Typing WPM & Accuracy Distributions
+11. Question Error & Distractor Analysis
+12. Qualification / Pass-Fail Audit
+13. Security Violation & Disqualification Logs
+14. Final Leaderboards with Medals (🥇, 🥈, 🥉)
+
+### Export Capabilities
+- **Excel-Compatible CSV**: High-speed data streaming with UTF-8 BOM encoding and formula injection protection.
+- **Printable Candidate Admission Slips**: Formatted with student photo, barcode/roll number, and exam details.
+- **80mm Thermal Receipt Slips**: Fast receipt printer output for on-the-spot candidate score slips.
+
+---
+
+## 11. Institutional Branding & Customization
+
+vibe.Sınav is completely customizable to match your school, college, or university identity:
+- **Dynamic Logo Sliding on Login**: Upload your institute logo in **Settings**; the login portal features an elegant CSS sliding animation showcasing both the institutional crest and "Powered by vibe.Sınav".
+- **Dynamic Institute Name**: Replace generic titles with your official school or university name across dashboards, candidate admission slips, and reports.
+- **Dynamic Favicons**: Automatically matches the browser tab favicon to your institution's uploaded logo.
+- **Customizable Assessment Titles**: Configure custom exam titles, test guidelines, passing percentages, and negative marking rules per assessment.
+
+---
+
+## 12. Disaster Recovery & Backup
+
+- **One-Click SQL Backup**: Navigate to **System & Maintenance &rarr; Database Backup** in the admin panel to download a full, consistent SQL snapshot.
+- **Safe Restoration**: Backups can be imported directly via phpMyAdmin or the MySQL command line:
+  ```bash
+  mysql -u root -p ptm < backup_file.sql
+  ```
+- **Automated Directory Preservation**: Backups are securely archived in `storage/backups/`.
+
+---
+
+## 13. Troubleshooting & FAQs
 
 ### Q1: Candidate PCs cannot connect to Host Server
-- Verify both computers are on the same Wi-Fi / LAN network.
-- Confirm Host Server IP using `ipconfig`.
-- Allow `httpd.exe` (Apache) in Windows Defender Firewall on the Server PC.
-- Check that both Server and Client PCs are connected to the same local subnet.
+- Ensure both Server and Client computers are on the same local network / router subnet.
+- Run `ipconfig` on the server to verify its current IPv4 address.
+- Verify that port 80 (Apache) or 8000 (PHP server) is allowed in Windows Defender Firewall.
 
-### Q2: Installer says "Already Installed"
-- For security, `install.php` is protected by `install.lock` and `storage/installed.lock`.
-- To re-install, delete `install.lock` and `storage/installed.lock` (Note: This will overwrite data if re-run).
+### Q2: Installer indicates "Already Installed"
+- `install.php` is protected by `install.lock` to prevent accidental data overwrites.
+- To re-run the initial installation, remove `install.lock` from the project root.
 
-### Q3: Candidate refreshed or closed browser during active test
-- The system automatically restores the active session, typing progress, paragraph, and authoritative remaining countdown time.
+### Q3: Candidate refreshed browser or lost connection during an active test
+- vibe.Sınav auto-saves candidate answers every 5 seconds.
+- Upon reopening the test URL and logging in with their roll number, the candidate's active session, answers, and remaining time are seamlessly restored.
 
 ---
-**Marr** &bull; *Department of Information Technology*
+
+## Credits & License
+
+- **Platform Architect**: **Ahsan Raza**
+- **Brand & Engine**: **vibe.Sınav**
+- **Copyright**: &copy; 2026 Ahsan Raza. All rights reserved.
