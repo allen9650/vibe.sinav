@@ -46,9 +46,9 @@ Designed from the ground up for mission-critical institutional testing, the syst
 
 ---
 
-## 2. Dual Examination Engines
+## 2. Examination Engines
 
-vibe.Sınav provides two specialized testing engines within a single unified platform:
+vibe.Sınav provides specialized testing engines within a single unified platform:
 
 ### A. Modern Quiz & Cognitive Assessment Engine
 - **Visual Question Builder**: Drag-and-order question structuring with rich text, categories, difficulty tags, points, and explanation notes.
@@ -59,15 +59,6 @@ vibe.Sınav provides two specialized testing engines within a single unified pla
   4. `Fill in the Blanks`: Keyword and phrase matching with case-sensitivity toggles.
   5. `Short Answer`: Open-ended answers evaluated against model answer key patterns.
 - **Real-Time Telemetry & Progress**: Candidates navigate questions with answered/unanswered indicators, question flags for review, and instant submission safeguards.
-
-### B. Precision Typing Competition Engine
-- **Levenshtein DP Sequence Alignment**: Dynamic programming alignment isolates substitutions, deletions, and insertions without cascading false penalties.
-- **Speed & Accuracy Metrics**:
-  - **Gross WPM**: $(\text{Total Typed Characters} / 5) / \text{Minutes}$
-  - **Net WPM**: $\max(0, \text{Gross WPM} - (\text{Total Errors} / \text{Minutes}))$
-  - **Accuracy %**: $(\text{Correct Characters} / \max(\text{Reference}, \text{Typed})) \times 100$
-  - **Score**: $\text{Net WPM} \times (\text{Accuracy} / 100)$
-- **Dynamic Paragraph Bank**: Curated paragraphs classified by difficulty and word count with random pool distribution.
 
 ---
 
